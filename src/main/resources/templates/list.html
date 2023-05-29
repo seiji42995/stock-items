@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html
+  lang="ja"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- css -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./mercari.css" th:href="@{/css/mercari.css}" />
+    <!-- script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <title>Rakus Items</title>
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav class="navbar navbar-inverse">
+      <div class="navbar-header">
+        <button
+          type="button"
+          class="navbar-toggle collapsed"
+          data-toggle="collapse"
+          data-target="#navbar"
+          aria-expanded="false"
+          aria-controls="navbar"
+        >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="./list.html" th:href="@{/item/show-list}">Rakus Items</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <div>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a id="logout" href="./login.html" th:href="@{/logout}"
+                >Logout <i class="fa fa-power-off"></i
+              ></a>
+            </li>
+          </ul>
+          <p class="navbar-text navbar-right">
+            <span id="loginName" th:text="'user: ' + ${staffName}">user: userName</span>
+          </p>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main" class="container-fluid">
+      <!-- addItem link -->
+      <div id="addItemButton">
+        <a class="btn btn-default" href="./add.html" th:href="@{/add}"
+          ><i class="fa fa-plus-square-o"></i> Add New Item</a
+        >
+      </div>
+
+      <!-- 検索フォーム -->
+      <div id="forms">
+        <form
+          action=""
+          th:action="@{/item/search}"
+          class="form-inline"
+          role="form"
+          method="post"
+          th:object="${itemSearchForm}"
+        >
+          <!-- itemName -->
+          <div class="form-group">
+            <input
+              type="input"
+              class="form-control"
+              name="itemName"
+              id="name"
+              placeholder="item name"
+            />
+          </div>
+          <!-- categorySelect -->
+          <div class="form-group"><i class="fa fa-plus"></i></div>
+          <div class="form-group">
+            <select class="form-control" id="category1" name="categoryList">
+              <option value="">- parentCategory -</option>
+              <option
+                th:each="category:${categoryList[0]}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}"
+              >
+                - parentCategory -
+              </option>
+            </select>
+            <select class="form-control" id="category2" name="categoryList">
+              <option value="">- childCategory -</option>
+              <option
+                th:each="category:${categoryList[1]}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}"
+              >
+                - childCategory -
+              </option>
+            </select>
+            <select class="form-control" id="category3" name="categoryList">
+              <option value="">- grandChild -</option>
+              <option
+                th:each="category:${categoryList[2]}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}"
+              >
+                - grandChild -
+              </option>
+            </select>
+          </div>
+          <!-- brandSelect -->
+          <div class="form-group"><i class="fa fa-plus"></i></div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="brandName" placeholder="brand" />
+          </div>
+          <div class="form-group"></div>
+          <button type="submit" class="btn btn-default">
+            <i class="fa fa-angle-double-right"></i> search
+          </button>
+        </form>
+      </div>
+
+      <div class="not-found" th:text="${notFound}"></div>
+
+      <!-- pagination -->
+      <div class="pages">
+        <nav class="page-nav">
+          <ul class="pager">
+            <span th:unless="${page}==1">
+              <li class="previous">
+                <a href="#" th:href="@{/item/goto-page?page=1}">&larrb;</a>
+              </li>
+            </span>
+            <span th:unless="${page}==1">
+              <li class="previous">
+                <a
+                  href="#"
+                  th:href="@{/item/previous-page?page=} + ${page}"
+                  >&larr; prev</a
+                >
+              </li>
+            </span>
+            <span
+              th:unless="${page} == ${#numbers.formatInteger(pageTotal,1)}"
+            >
+              <li class="next">
+                <a
+                  href="#"
+                  th:href="@{/item/goto-page?page=} + ${#numbers.formatInteger(pageTotal,1)}"
+                  >&rarrb;</a
+                >
+              </li>
+            </span>
+            <span
+              th:unless="${page} == ${#numbers.formatInteger(pageTotal,1)}"
+            >
+              <li class="next">
+                <a
+                  href="#"
+                  th:href="@{/item/next-page?page=} +${page}"
+                  >next &rarr;</a
+                >
+              </li>
+            </span>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- table -->
+      <div class="table-responsive">
+        <div class="items">
+          <table id="item-table" class="table table-hover table-condensed">
+            <thead>
+              <tr>
+                <th>name</th>
+                <th>price</th>
+                <th>category</th>
+                <th>brand</th>
+                <th>cond</th>
+              </tr>
+            </thead>
+            <tbody th:each="item:${itemList}">
+              <tr>
+                <!-- name -->
+                <td class="item-name">
+                  <a
+                    href="./detail.html"
+                    th:href="@{/item/show-detail(itemId=${item.itemId}, page=${page})}"
+                    th:text="${item.name}"
+                    >Razer BlackWidow Chroma Keyboard</a
+                  >
+                </td>
+                <!-- price -->
+                <td class="item-price" th:text="${item.price}">52.0</td>
+                <!-- category -->
+                <td class="item-category">
+                  <span th:each="category:${item.categoryList}">
+                    <a href="" th:href="@{/item/search-by-category?categoryId=} + ${category.categoryId}" th:text="${category.categoryName}">Electronics</a
+                    >&nbsp;<span th:unless="${categoryStat.last}">/</span></span
+                  >
+                </td>
+                <!-- brand -->
+                <td class="item-brand">
+                  <a href="" th:text="${item.brand.brandName}">Razer</a>
+                </td>
+                <!-- condition -->
+                <td class="item-condition" th:text="${item.conditionId}">3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- pagination -->
+      <div class="pages">
+        <nav class="page-nav">
+          <ul class="pager">
+            <span th:unless="${page}==1">
+              <li class="previous">
+                <a href="#" th:href="@{/item/goto-page?page=1}">&larrb;</a>
+              </li>
+            </span>
+            <span th:unless="${page}==1">
+              <li class="previous">
+                <a
+                  href="#"
+                  th:href="@{/item/previous-page?page=} + ${page}"
+                  >&larr; prev</a
+                >
+              </li>
+            </span>
+            <span
+              th:unless="${page} == ${#numbers.formatInteger(pageTotal,1)}"
+            >
+              <li class="next">
+                <a
+                  href="#"
+                  th:href="@{/item/goto-page?page=} + ${#numbers.formatInteger(pageTotal,1)}"
+                  >&rarrb;</a
+                >
+              </li>
+            </span>
+            <span
+              th:unless="${page} == ${#numbers.formatInteger(pageTotal,1)}"
+            >
+              <li class="next">
+                <a
+                  href="#"
+                  th:href="@{/item/next-page?page=} +${page}"
+                  >next &rarr;</a
+                >
+              </li>
+            </span>
+          </ul>
+        </nav>
+        <!-- ページ番号を指定して表示するフォーム -->
+        <div id="select-page">
+          <form class="form-inline" th:action="@{/item/goto-page}" method="get">
+            <div class="form-group">
+              <div class="input-group col-xs-6">
+                <label></label>
+                <input type="text" name="page" class="form-control" />
+                <!-- 総ページ数 -->
+                <div class="input-group-addon">
+                  /
+                  <span th:text="${#numbers.formatInteger(pageTotal,1)}"></span>
+                </div>
+              </div>
+              <div class="input-group col-xs-1">
+                <button type="submit" class="btn btn-default">Go</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script th:inline="javascript">
+      let categoryList = /*[[${categoryList}]]*/ "categoryList";
+
+      let categorySelect1 = document.getElementById("category1");
+      let categorySelect2 = document.getElementById("category2");
+      let categorySelect3 = document.getElementById("category3");
+
+      category1Select(
+        categorySelect1,
+        categorySelect2,
+        categorySelect3,
+        categoryList
+      );
+      category2Select(
+        categorySelect1,
+        categorySelect2,
+        categorySelect3,
+        categoryList
+      );
+      category3Select(
+        categorySelect1,
+        categorySelect2,
+        categorySelect3,
+        categoryList
+      );
+
+      // 第1カテゴリー選択時の関数
+      function category1Select(category1, category2, category3, categoryList) {
+        category1.onchange = (event) => {
+          // 選択されたカテゴリーのIDを取得する
+          let parentCategory = category1.value;
+          // 子カテゴリーのリストを取得
+          let childrenCategory = category2.value;
+
+          // 子カテゴリーを管理するリストを定義
+          let childrenCategories = new Array();
+
+          // 選択されたカテゴリーを親カテゴリーIDに持つ子カテゴリーを取得
+          let childrenList = getChildrenCategoryList(
+            parentCategory,
+            categoryList
+          );
+          clearList(category2);
+          setChildrenList(category2, childrenList);
+
+          // 孫カテゴリーを管理するリストを定義
+          let grandChildeCategories = new Array();
+          for (let i = 0; i < categoryList.length; i++) {
+            for (let j = 0; j < categoryList[i].length; j++) {
+              for (let k = 0; k < childrenList.length; k++) {
+                if (childrenList[k].categoryId == categoryList[i][j].parentId) {
+                  grandChildeCategories.push(categoryList[i][j]);
+                }
+              }
+            }
+          }
+
+          // 第３カテゴリーのプルダウンリスト作成
+          clearList(category3);
+          setChildrenList(category3, grandChildeCategories);
+        };
+      }
+
+      // 第2カテゴリー選択時の関数
+      function category2Select(category1, category2, category3, categoryList) {
+        category2.onchange = (event) => {
+          // 親カテゴリーリストを取得
+          let category1List = category1.options;
+          // カテゴリー2のIDを取得
+          let funcCategory2 = category2.value;
+          // 親カテゴリーIDを取得する
+          let parentCategoryId = getParentCategoryId(
+            funcCategory2,
+            categoryList
+          );
+          // 親カテゴリーを選択状態にする
+          categoryCheck(category1List, parentCategoryId);
+          let childrenList = getChildrenCategoryList(
+            funcCategory2,
+            categoryList
+          );
+          setChildrenList(category3, childrenList);
+        };
+      }
+
+      // 第3カテゴリー選択時の関数
+      function category3Select(category1, category2, category3, categoryList) {
+        category3.onchange = (event) => {
+          // カテゴリー1のoptionリストを取得
+          let category1List = category1.options;
+          // カテゴリー3のIDを取得
+          let category3Id = category3.value;
+          // カテゴリー2,1のカテゴリーIDを取得
+          let category2Id = getParentCategoryId(category3Id, categoryList);
+          let category1Id = getParentCategoryId(category2Id, categoryList);
+          // カテゴリー1を選択済みにする
+          categoryCheck(category1List, category1Id);
+          // カテゴリー2のリストを作り直して、セットし直す
+          let category2List = getChildrenCategoryList(
+            category1Id,
+            categoryList
+          );
+          setChildrenList(category2, category2List);
+          // カテゴリー2,を選択済みにする
+          categoryCheck(category2, category2Id);
+
+          // カテゴリー3のリストを取得
+          let category3List = getChildrenCategoryList(
+            category2Id,
+            categoryList
+          );
+          setChildrenList(category3, category3List);
+          selectedCategoryCheck(category3Id, category3);
+        };
+      }
+    </script>
+
+    <script th:src="@{/js/list.js}"></script>
+  </body>
+</html>

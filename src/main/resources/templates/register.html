@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html   lang="ja"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- css -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" 
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="./mercari.css" th:href="@{/css/mercari.css}"/>
+  <!-- script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <title>Rakus Items</title>
+</head>
+<body>
+  <!-- navbar -->
+  <nav class="navbar navbar-inverse">
+    <a class="navbar-brand" href="./list.html">Rakus Items</a>
+  </nav>
+
+  <!-- register form -->
+  <div id="login" class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">アカウント登録</div>
+      <div class="panel-body">
+        <form action="#" th:action="@{/register/insert-staff-info}" method="POST" th:object="${registerStaffInfoForm}">
+          <div class="form-group">
+            <label for="lastName">苗字</label>&nbsp;<span class="error" th:errors="*{lastName}"></span>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}">
+            <label for="firstName">名前</label>&nbsp;<span class="error" th:errors="*{firstName}"></span>
+            <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}">
+          </div>
+          <div class="form-group">
+            <label for="mail">メールアドレス</label>&nbsp;<span class="error" th:errors="*{email}"></span>
+            <input type="email" class="form-control" id="mail" name="email" th:field="*{email}">
+          </div>
+          <div class="form-group">
+            <label for="password">パスワード</label>&nbsp;<span class="error" th:errors="*{password}"></span>
+            <input type="password" class="form-control" id="password" name="password" th:field="*{password}">
+          </div>
+          <div class="form-group">
+            <label for="confirmationPassword">確認用パスワード</label>&nbsp;<span class="error" th:errors="*{confirmationPassword}"></span>
+            <input type="password" class="form-control" id="confirmationPassword" name="confirmationPassword" th:field="*{confirmationPassword}">
+          </div>
+          <div class="form-group">
+            <label for="deactivate">編集権限</label>&nbsp;<span class="error" th:errors="*{authority}"></span>
+            <input type="radio" id="activate" value="1" th:field="*{authority}">
+            <label for="activate">有</label>
+            <input type="radio" id="deactivate" value="0" th:field="*{authority}" checked> <label for="deactivate">無</label>
+          </div>
+          <div class="form-group">
+            <label for="shop">所属店舗選択</label>&nbsp;<span class="error" th:errors="*{shopName}"></span>
+            <input class="form-control" list="shopList" id="shop" name="shopName" th:fields="*{shopName}">
+            <datalist id="shopList">
+              <th:block th:each="shop:${shopList}">
+                <option  th:value="${shop.shopName}">
+                </option>
+              </th:block>
+            </datalist> 
+          </div>
+          <div class="reg-shop">
+            ※ご自身の所属店舗が見つからない場合は店舗を登録してください &nbsp;
+            <a type="button" class="btn btn-default reg-shop" href="./login.html">店舗登録はこちら</a>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-default register-btn">アカウント作成</button>
+        </form>
+      </div>
+    </div>
+    <div>
+      <a type="button" class="btn btn-default" href="./login.html" th:href="@{/login}"><i class="fa fa-reply"></i>&nbsp;Login page</a>
+    </div>
+</body>
+</html>

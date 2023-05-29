@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <h1>以下のいずれかの理由でシステムの操作を中断しました。</h1>
+  <pre>
+    ・不正な操作が行われた
+    ・長い時間操作を行わなかった
+    ・現在システムメンテナンス中
+
+    しばらく経ってからもう一度操作してください。
+  </pre>
+  <a id="logout" href="./login.html" th:href="@{/}">ログイン画面</a>
+  </body>
+</html>
