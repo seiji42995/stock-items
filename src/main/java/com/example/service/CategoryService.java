@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Category;
+import com.example.form.ItemSearchForm;
 import com.example.repository.CategoryRepository;
+import com.example.repository.ItemRepository;
 
 /**
  * カテゴリー情報を操作するサービスクラス.
@@ -22,6 +24,8 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	/**
 	 * 階層毎にリスト化したカテゴリーリストを取得する
@@ -42,7 +46,20 @@ public class CategoryService {
 			if(i == 0) {
 				categorySmallList.get(i).setCategoryName("カテゴリー無し");
 			}
+			categorySmallList = getItemNumByCategory(categorySmallList);
 			categoryList.add(categorySmallList);
+		}
+		return categoryList;
+	}
+	
+	public List<Category> getItemNumByCategory(List<Category> categoryList){
+		ItemSearchForm form = new ItemSearchForm();
+		List<Integer> category = new ArrayList<>();
+		for(int i = 0 ; i < categoryList.size() ; i++) {
+			category.add(categoryList.get(i).getCategoryId());
+			form.setCategoryList(category);
+			Integer countItem = itemRepository.countItemIdBySearchCategory(form);
+			categoryList.get(i).setItemNum(countItem);
 		}
 		return categoryList;
 	}

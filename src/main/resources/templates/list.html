@@ -102,31 +102,31 @@
           <div class="form-group"><i class="fa fa-plus"></i></div>
           <div class="form-group">
             <select class="form-control" id="category1" name="categoryList">
-              <option value="">- parentCategory -</option>
+              <option value="" hidden>- parentCategory -</option>
               <option
                 th:each="category:${categoryList[0]}"
                 th:value="${category.categoryId}"
-                th:text="${category.categoryName}"
+                th:text="${category.categoryName} + ' (' + ${category.itemNum} + ') '"
               >
                 - parentCategory -
               </option>
             </select>
             <select class="form-control" id="category2" name="categoryList">
-              <option value="">- childCategory -</option>
+              <option value="" hidden>- childCategory -</option>
               <option
                 th:each="category:${categoryList[1]}"
                 th:value="${category.categoryId}"
-                th:text="${category.categoryName}"
+                th:text="${category.categoryName} + ' (' + ${category.itemNum} + ') '"
               >
                 - childCategory -
               </option>
             </select>
             <select class="form-control" id="category3" name="categoryList">
-              <option value="">- grandChild -</option>
+              <option value="" hidden>- grandChild -</option>
               <option
                 th:each="category:${categoryList[2]}"
                 th:value="${category.categoryId}"
-                th:text="${category.categoryName}"
+                th:text="${category.categoryName} + ' (' + ${category.itemNum} + ') '"
               >
                 - grandChild -
               </option>
@@ -400,6 +400,7 @@
             category1Id,
             categoryList
           );
+          console.log(category2List);
           setChildrenList(category2, category2List);
           // カテゴリー2,を選択済みにする
           categoryCheck(category2, category2Id);
