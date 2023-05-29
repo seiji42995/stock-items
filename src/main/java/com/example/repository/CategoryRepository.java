@@ -31,7 +31,6 @@ public class CategoryRepository {
 		category.setCategoryName(rs.getString("category_name"));
 		category.setNameAll(rs.getString("name_all"));
 		category.setHierarchy(rs.getInt("hierarchy"));
-//		category.setItemNum(rs.getInt(""));
 		return category;
 	};
 	

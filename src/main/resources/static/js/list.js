@@ -42,7 +42,7 @@ function setChildrenList(childrenSelect, childrenList) {
   for (let childrenCategory of childrenList) {
     let option = document.createElement("option");
     option.value = childrenCategory.categoryId;
-    option.textContent = childrenCategory.categoryName;
+    option.textContent = childrenCategory.categoryName + ' (' + childrenCategory.itemNum + ') ';
     childrenSelect.appendChild(option);
   }
 }
@@ -108,57 +108,59 @@ function removeSelect(selectCount) {
   element.remove();
 }
 
+/** これいらないかも */
 // selectタグを作成する関数
-function createSelectForHierarchy(childrenCategoryList, hierarchyNum) {
-  let jsSelectBox = document.querySelector(".js-selectbox");
-  let select = document.createElement("select");
-  let categoryName = "category" + (hierarchyNum + 1);
-  select.setAttribute("name", "categoryList");
-  select.setAttribute("id", categoryName);
-  select.classList.add("form-control");
-  let defaultOption = document.createElement("option");
-  defaultOption.value = "";
-  defaultOption.textContent = "カテゴリーを選択してください";
-  defaultOption.hidden = true;
-  select.appendChild(defaultOption);
-  let grandChildCategoryList = new Array();
-  for (let i = 0; i < childrenCategoryList.length; i++) {
-    let option = document.createElement("option");
-    option.value = childrenCategoryList[i].categoryId;
-    option.textContent = childrenCategoryList[i].categoryName;
-    select.appendChild(option);
-    jsSelectBox.appendChild(select);
-    grandChildCategoryList.push(
-      getChildrenCategoryList(childrenCategoryList[i].categoryId, categoryList)
-    );
-  }
-  return grandChildCategoryList;
-  // if(grandChildCategoryList.length !== 0){
-  //   let selectId = select.getAttribute('id');
-  //   let hierarchyNum = parseInt(selectId.substring(8));
-  //   createSelectForHierarchy(grandChildCategoryList, hierarchyNum);
-  // }
-}
+// function createSelectForHierarchy(childrenCategoryList, hierarchyNum) {
+//   let jsSelectBox = document.querySelector(".js-selectbox");
+//   let select = document.createElement("select");
+//   let categoryName = "category" + (hierarchyNum + 1);
+//   select.setAttribute("name", "categoryList");
+//   select.setAttribute("id", categoryName);
+//   select.classList.add("form-control");
+//   let defaultOption = document.createElement("option");
+//   defaultOption.value = "";
+//   defaultOption.textContent = "カテゴリーを選択してください";
+//   defaultOption.hidden = true;
+//   select.appendChild(defaultOption);
+//   let grandChildCategoryList = new Array();
+//   for (let i = 0; i < childrenCategoryList.length; i++) {
+//     let option = document.createElement("option");
+//     option.value = childrenCategoryList[i].categoryId;
+//     option.textContent = (childrenCategoryList[i].categoryName + ' (' + childrenCategoryList[i].itemNum + ') ');
+//     select.appendChild(option);
+//     jsSelectBox.appendChild(select);
+//     grandChildCategoryList.push(
+//       getChildrenCategoryList(childrenCategoryList[i].categoryId, categoryList)
+//     );
+//   }
+//   return grandChildCategoryList;
+//   // if(grandChildCategoryList.length !== 0){
+//   //   let selectId = select.getAttribute('id');
+//   //   let hierarchyNum = parseInt(selectId.substring(8));
+//   //   createSelectForHierarchy(grandChildCategoryList, hierarchyNum);
+//   // }
+// }
 
-function createSelectForGrandChild(grandChildList, hierarchyNum) {
-  let jsSelectBox = document.querySelector(".js-selectbox");
-  let select = document.createElement("select");
-  let categoryName = "category" + (hierarchyNum + 1);
-  select.setAttribute("name", "categoryList");
-  select.setAttribute("id", categoryName);
-  select.classList.add("form-control");
-  let defaultOption = document.createElement("option");
-  defaultOption.value = "";
-  defaultOption.textContent = "カテゴリーを選択してください";
-  defaultOption.hidden = true;
-  select.appendChild(defaultOption);
-  for (let i = 0; i < grandChildList.length; i++) {
-    for (let j = 0; j < grandChildList[i].length; j++) {
-      let option = document.createElement("option");
-      option.value = grandChildList[i][j].categoryId;
-      option.textContent = grandChildList[i][j].categoryName;
-      select.appendChild(option);
-      jsSelectBox.appendChild(select);
-    }
-  }
-}
+// function createSelectForGrandChild(grandChildList, hierarchyNum) {
+//   let jsSelectBox = document.querySelector(".js-selectbox");
+//   let select = document.createElement("select");
+//   let categoryName = "category" + (hierarchyNum + 1);
+//   select.setAttribute("name", "categoryList");
+//   select.setAttribute("id", categoryName);
+//   select.classList.add("form-control");
+//   let defaultOption = document.createElement("option");
+//   defaultOption.value = "";
+//   defaultOption.textContent = "カテゴリーを選択してください";
+//   defaultOption.hidden = true;
+//   select.appendChild(defaultOption);
+//   for (let i = 0; i < grandChildList.length; i++) {
+//     for (let j = 0; j < grandChildList[i].length; j++) {
+//       let option = document.createElement("option");
+//       option.value = grandChildList[i][j].categoryId;
+//       option.textContent = (grandChildList[i][j].categoryName + ' (' + grandChildList[i][j].itemNum + ') ');
+//       select.appendChild(option);
+//       jsSelectBox.appendChild(select);
+//     }
+//   }
+// }
+/** ここまで */
