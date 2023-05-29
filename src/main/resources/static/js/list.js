@@ -29,11 +29,15 @@ function firstCategorySelectForOver4() {}
 // 子リストを作成する関数
 function setChildrenList(childrenSelect, childrenList) {
   clearList(childrenSelect);
-  console.log(childrenSelect);
   let defaultOption = document.createElement("option");
   defaultOption.value = "";
-  defaultOption.textContent = "カテゴリーを選択してください";
-  defaultOption.hidden = true;
+  if(childrenList.length == 0){
+    defaultOption.textContent = "カテゴリー無し";
+    defaultOption.hidden = true;
+  }else{
+    defaultOption.textContent = "カテゴリーを選択してください";
+    defaultOption.hidden = true;
+  }
   childrenSelect.appendChild(defaultOption);
   for (let childrenCategory of childrenList) {
     let option = document.createElement("option");
