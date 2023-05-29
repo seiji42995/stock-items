@@ -39,6 +39,9 @@ public class CategoryService {
 		for(int i = 0 ; i <= 4 ; i ++) {
 			List<Category> categorySmallList = new ArrayList<>();
 			categorySmallList = categoryRepository.findByHierarchy(i);
+			if(i == 0) {
+				categorySmallList.get(i).setCategoryName("カテゴリー無し");
+			}
 			categoryList.add(categorySmallList);
 		}
 		return categoryList;
