@@ -45,8 +45,12 @@ class CategoryServiceTest {
 	@DisplayName("カテゴリーリスト取得テスト")
 	void testFindCategoryList() {
 		List<List<Category>> categoryList = categoryService.findCategoryList();
-		assertEquals("Beauty", categoryList.get(0).get(1).getCategoryName(), "正常な値が取得できませんでした");
-		assertEquals("Fragrance", categoryList.get(1).get(1).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("カテゴリー無し", categoryList.get(0).get(0).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Women", categoryList.get(0).get(10).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Bath & Body", categoryList.get(1).get(0).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Women's Handbags", categoryList.get(1).get(137).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Bath", categoryList.get(2).get(0).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Totes & Shoppers", categoryList.get(2).get(1285).getCategoryName(), "正常な値が取得できませんでした");
 	}
 
 }
