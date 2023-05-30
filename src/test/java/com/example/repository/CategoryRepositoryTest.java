@@ -55,22 +55,13 @@ class CategoryRepositoryTest {
 	@Test
 	@DisplayName("階層検索テスト")
 	void testFindByHierarchy() {
-		List<Category> categoryList0 = categoryRepository.findByHierarchy(0);
-		List<Category> categoryList2 = categoryRepository.findByHierarchy(2);
-		List<Category> categoryList4 = categoryRepository.findByHierarchy(4);
-		assertEquals("Beauty", categoryList0.get(1).getCategoryName(), "正常な値が取得できませんでした");
-		assertEquals("Women", categoryList0.get(10).getCategoryName(), "正常な値が取得できませんでした");
-		assertEquals("Bath", categoryList2.get(0).getCategoryName(), "正常な値が取得できませんでした");
-		assertEquals("Totes & Shoppers", categoryList2.get(categoryList2.size() - 1).getCategoryName(), "正常な値が取得できませんでした");
-		assertEquals("eBook Access", categoryList4.get(0).getCategoryName(), "正常な値が取得できませんでした");
-		assertEquals("eBook Readers", categoryList4.get(categoryList4.size() - 1).getCategoryName(), "正常な値が取得できませんでした");	
-	}
-
-	@Test
-	@DisplayName("最大階層確認テスト")
-	void testCheckMaxHierarchy() {
-		Integer maxHierarchy = categoryRepository.checkMaxHierarchy();
-		assertEquals(4, maxHierarchy, "正常な値が取得できませんでした");
+		List<List<Category>> categoryList = categoryRepository.findByHierarchy();
+		assertEquals("Beauty", categoryList.get(0).get(1).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Women", categoryList.get(0).get(10).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Bath & Body", categoryList.get(1).get(0).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Women's Handbags", categoryList.get(1).get(137).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Bath", categoryList.get(2).get(0).getCategoryName(), "正常な値が取得できませんでした");
+		assertEquals("Totes & Shoppers", categoryList.get(2).get(1285).getCategoryName(), "正常な値が取得できませんでした");
 	}
 	
 	@Test
