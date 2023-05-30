@@ -137,6 +137,13 @@ public class ItemService {
 		return maxItemId;
 	}
 
+	/**
+	 * 検索フォーム欄に入力された条件にヒットする商品情報を取得する.
+	 * 
+	 * @param 検索フォーム（商品名・カテゴリー・ブランド名）
+	 * @param ページ番号
+	 * @return 検索条件に合致した商品情報リスト
+	 */
 	public List<Item> searchItem(ItemSearchForm form, Integer pageNum) {
 
 		List<Item> itemList = new ArrayList<>();
@@ -188,6 +195,12 @@ public class ItemService {
 		return itemList;
 	}
 	
+	/**
+	 * 商品検索フォーム内のカテゴリーリストにNullが存在する場合は該当要素を削除する.
+	 * 
+	 * @param 商品検索フォーム
+	 * @return カテゴリーリストからNullが無くなった商品検索フォーム
+	 */
 	public ItemSearchForm cleanupCategory(ItemSearchForm form) {
 		for (int i = form.getCategoryList().size() - 1; i >= 0; i--) {
 			if (form.getCategoryList().get(i) == null) {
@@ -197,6 +210,13 @@ public class ItemService {
 		return form;
 	}
 
+	/**
+	 * 入力された検索フォームに応じた商品件数を取得する.
+	 * （商品検索条件の各パターンに応じたSQLを実行する）
+	 * 
+	 * @param 商品検索フォーム
+	 * @return 入力された検索フォームに応じた商品件数
+	 */
 	public Integer getMaxCount(ItemSearchForm form) {
 		Integer countItem = 0;
 

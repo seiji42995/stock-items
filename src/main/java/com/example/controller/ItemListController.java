@@ -69,8 +69,17 @@ public class ItemListController {
 		return "list";
 	}
 
+	/**
+	 * 次の商品情報100件を取得する
+	 * 
+	 * @param page 現在のページ番号
+	 * @param model リクエストパラメータ
+	 * @param form　検索フォーム
+	 * @param loginStaff ログインユーザー情報
+	 * @return リクエストパラメータ元で表示していた商品情報から次の商品情報100件
+	 */
 	@GetMapping("/next-page")
-	public String nextPage(Integer page, Integer categoryId, Model model, ItemSearchForm form,
+	public String nextPage(Integer page, Model model, ItemSearchForm form,
 			@AuthenticationPrincipal LoginStaff loginStaff) {
 		ItemSearchForm searchForm = (ItemSearchForm) session.getAttribute("form");
 		List<Item> itemList = null;
@@ -101,6 +110,15 @@ public class ItemListController {
 		return "list";
 	}
 
+	/**
+	 * 前の商品情報100件を取得する.
+	 * 
+	 * @param page 現在のページ
+	 * @param model リクエストパラメーター
+	 * @param form 検索フォーム
+	 * @param loginStaff ログインユーザー情報
+	 * @return 前の商品情報100件リスト
+	 */
 	@GetMapping("/previous-page")
 	public String previousPage(Integer page, Model model, ItemSearchForm form,
 			@AuthenticationPrincipal LoginStaff loginStaff) {
@@ -133,6 +151,15 @@ public class ItemListController {
 		return "list";
 	}
 
+	/**
+	 * 指定ページの商品情報100件取得する.
+	 * 
+	 * @param page 取得対象のページ数
+	 * @param model リクエストパラメーター
+	 * @param form 検索フォーム
+	 * @param loginStaff ログインユーザー情報
+	 * @return 取得した商品情報100件
+	 */
 	@GetMapping("/goto-page")
 	public String gotoPage(Integer page, Model model, ItemSearchForm form, @AuthenticationPrincipal LoginStaff loginStaff) {
 		ItemSearchForm searchForm = (ItemSearchForm) session.getAttribute("form");
@@ -160,6 +187,14 @@ public class ItemListController {
 		return "list";
 	}
 
+	/**
+	 * 検索フォームに該当する商品情報100件取得する.
+	 * 
+	 * @param model リクエストパラメーター
+	 * @param form 商品検索フォーム
+	 * @param loginStaff ログインユーザー情報
+	 * @return 検索フォームに該当する商品情報100件リスト
+	 */
 	@PostMapping("/search")
 	public String search(Model model, ItemSearchForm form, @AuthenticationPrincipal LoginStaff loginStaff) {
 		System.out.print("フォーム確認 : ");
@@ -196,6 +231,14 @@ public class ItemListController {
 		return "list";
 	}
 
+	/**
+	 * カテゴリーのリンククリック時に該当する商品情報100件取得する.
+	 * 
+	 * @param categoryId カテゴリーID
+	 * @param model リクエストパラメーター
+	 * @param loginStaff ログインユーザー情報
+	 * @return 該当する商品情報100件分取得する
+	 */
 	@GetMapping("/search-by-category")
 	public String searchByCategory(Integer categoryId, Model model, @AuthenticationPrincipal LoginStaff loginStaff) {
 		Integer page = 0;
@@ -223,5 +266,19 @@ public class ItemListController {
 		session.setAttribute("form", form);
 		model.addAttribute("staffName", loginStaff.getStaff().getStaffName());
 		return "list";
+	}
+	
+	/**
+	 * showListメソッドに遷移する.
+	 * 
+	 * @param model リクエストパラメーター
+	 * @param form 検索フォーム
+	 * @param loginStaff ログインユーザー情報
+	 * @return showListメソッドに遷移する
+	 */
+	@GetMapping("/to-showlist")
+	public String toShowlist(Model model, ItemSearchForm form, @AuthenticationPrincipal LoginStaff loginStaff) {
+		session.removeAttribute("form");
+		return showList(model, form, loginStaff);
 	}
 }

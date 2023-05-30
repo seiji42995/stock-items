@@ -19,6 +19,12 @@ import com.example.form.AddItemForm;
 import com.example.form.EditItemForm;
 import com.example.form.ItemSearchForm;
 
+/**
+ * 商品情報を操作するリポジトリークラス.
+ * 
+ * @author seiji_kitahara
+ *
+ */
 @Repository
 public class ItemRepository {
 

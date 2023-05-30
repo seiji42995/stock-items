@@ -3,7 +3,6 @@ package com.example.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -138,6 +137,18 @@ class ItemListControllerTest {
 				.param("itemName", "mlb")
 				.param("categoryList", categoryLists)
 				.param("brandName", "nintendo")
+				.with(SecurityMockMvcRequestPostProcessors.csrf())
+				.with(user(loginStaff)))
+				.andExpect(status().isOk())
+				.andExpect(authenticated())
+				.andExpect(view().name("list"));
+	}
+	
+	@Test
+	@DisplayName("showListメソッド遷移テスト")
+	void testToShowlist() throws Exception{
+		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
+		this.mockMvc.perform(get("/item/to-showlist")
 				.with(SecurityMockMvcRequestPostProcessors.csrf())
 				.with(user(loginStaff)))
 				.andExpect(status().isOk())
