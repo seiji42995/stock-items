@@ -37,18 +37,19 @@ public class CategoryService {
 		// カテゴリー階層の最大値を確認
 //		Integer maxHierarchy = categoryRepository.checkMaxHierarchy();
 		
-		List<List<Category>> categoryList = new ArrayList<>();
+		List<List<Category>> categoryList = categoryRepository.findByHierarchy();
+		categoryList.get(0).get(0).setCategoryName("カテゴリー無し");
 		
 		// カテゴリー毎にリスト化し、リストに詰める
-		for(int i = 0 ; i <= 4 ; i ++) {
-			List<Category> categorySmallList = new ArrayList<>();
-			categorySmallList = categoryRepository.findByHierarchy(i);
-			if(i == 0) {
-				categorySmallList.get(i).setCategoryName("カテゴリー無し");
-			}
-			categorySmallList = getItemNumByCategory(categorySmallList);
-			categoryList.add(categorySmallList);
-		}
+//		for(int i = 0 ; i <= 4 ; i ++) {
+//			List<Category> categorySmallList = new ArrayList<>();
+//			categorySmallList = categoryRepository.findByHierarchy(i);
+//			if(i == 0) {
+//				categorySmallList.get(i).setCategoryName("カテゴリー無し");
+//			}
+//			categorySmallList = getItemNumByCategory(categorySmallList);
+//			categoryList.add(categorySmallList);
+//		}
 		return categoryList;
 	}
 	
