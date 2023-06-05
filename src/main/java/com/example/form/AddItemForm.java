@@ -22,7 +22,7 @@ public class AddItemForm {
 	private Double price;
 	/** カテゴリーリスト */
 	@Valid
-	private List<@NotNull(message="カテゴリーを選択してください") Integer> categoryList;
+	private List<@NotNull(message = "カテゴリーを選択してください") Integer> categoryList;
 	/** ブランド名 */
 	@NotBlank(message = "ブランドを選択してください")
 	private String brandName;

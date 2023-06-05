@@ -58,13 +58,15 @@
         <div>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a id="logout" href="./login.html" th:href="@{/login}"
+              <a id="logout" href="./login.html" th:href="@{/logout}"
                 >Logout&nbsp;<i class="fa fa-power-off"></i
               ></a>
             </li>
           </ul>
           <p class="navbar-text navbar-right">
-            <span id="loginName">user: userName</span>
+            <span id="loginName" th:text="'user: ' + ${staffName}"
+              >user: userName</span
+            >
           </p>
         </div>
       </div>
@@ -117,7 +119,7 @@
 
         <!-- category -->
         <div class="form-group">
-          <label for="category" class="col-sm-2 control-label">category</label>
+          <label for="category1" class="col-sm-2 control-label">category</label>
           <div class="col-sm-8 js-selectbox" th:field="${categoryList}">
             <select name="categoryList" id="category1" class="form-control">
               <option value="" hidden>- parentCategory -</option>
@@ -143,11 +145,14 @@
                 th:text="${category.categoryName}"
               ></option>
             </select>
+            <span
+              th:if="${#fields.hasErrors('categoryList')}"
+              class="text-danger"
+              th:errors="*{categoryList}"
+              >error:may not be empty</span
+            >
           </div>
         </div>
-        <span th:if="${#fields.hasErrors('categoryList')}" class="text-danger" th:errors="*{categoryList}"
-          >error:may not be empty</span
-        >
 
         <!-- brand -->
         <div class="form-group">
@@ -173,7 +178,7 @@
         </div>
         <!-- condition -->
         <div class="form-group">
-          <label for="condition" class="col-sm-2 control-label"
+          <label for="condition1" class="col-sm-2 control-label"
             >condition</label
           >
           <div class="col-sm-8">
@@ -189,14 +194,9 @@
               <input type="radio" name="condition" id="condition3" value="3" />
               3
             </label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="category" class="col-sm-2 control-label"></label>
-          <div class="col-sm-8">
-            <span class="text-danger" th:errors="*{condition}"
-              >error:may not be empty</span
-            >
+            <div class="text-danger" th:errors="*{condition}"
+                >error:may not be empty</div
+              >
           </div>
         </div>
         <!-- description -->

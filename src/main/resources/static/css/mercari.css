@@ -61,6 +61,18 @@ div#login{
   padding-left: 145px;
 }
 
+#category1{
+  width: 250px;
+}
+
+#category2{
+  width: 250px;
+}
+
+#category3{
+  width: 250px;
+}
+
 .not-found{
   text-align: center;
 }
