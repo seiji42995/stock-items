@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * アプリケーション内で処理されなかった例外をここでキャッチし、
  * エラーページへ遷移させます.
  * 
- * @author matsuokakeiichi
+ * @author seiji_kitahara
  *
  */
 @Component

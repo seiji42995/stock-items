@@ -2,9 +2,7 @@ package com.example.form;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class EditItemForm {
@@ -16,9 +14,8 @@ public class EditItemForm {
 	@NotNull(message = "価格を入力してください")
 	private Double price;
 	/** カテゴリーリスト */
-	@NotEmpty(message = "カテゴリーを選択してください")
-	@Valid
-	private List<@NotNull Integer> categoryList;
+	@NotNull(message = "カテゴリーを選択してください")
+	private List<Integer> categoryList;
 	/** ブランド名 */
 	private String brandName;
 	/** コンディション */
