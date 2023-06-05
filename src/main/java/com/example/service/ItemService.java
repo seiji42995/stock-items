@@ -175,8 +175,8 @@ public class ItemService {
 			itemList = itemRepository.findBySearchFormAll(form, offset);
 		}
 
-		if(itemList.size() == 0) {
-			return null;
+		if(itemList == null) {
+			return itemList;
 		}
 
 		for (int i = itemList.size() - 1; i >= 0; i--) {

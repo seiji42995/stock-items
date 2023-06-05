@@ -207,9 +207,9 @@ public class ItemListController {
 		}
 		Integer pageNum = 1;
 		List<Item> itemList = itemService.searchItem(form, pageNum);
-		if (itemList.size() == 0) {
+		if (itemList == null) {
 			model.addAttribute("notFound", "検索の結果何も見つかりませんでした。商品ID順で最初の100件を表示します");
-
+			System.out.println("ここには入っている");
 			return showList(model, form, loginStaff);
 		}
 		model.addAttribute("itemList", itemList);
