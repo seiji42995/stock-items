@@ -83,7 +83,7 @@ class ShopRepositoryTest {
 		form.setZipcode("105-0011");
 		form.setAddress("東京都港区芝公園4-2-8");
 		form.setTelephone("03-3433-5111");
-		form.setOrneaLastName("佐藤");
+		form.setOrnerLastName("佐藤");
 		form.setOrnerFirstName("静");
 		form.setDescription("1958年に竣工された高さ333mの電波塔。東京のシンボルとして知られ、高さ150mと250mの2つの展望台と飲食施設を備える");
 		shopRepository.insertShopInfo(form);

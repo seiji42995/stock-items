@@ -51,6 +51,7 @@ div#login{
 .register-btn{
   color: white;
   background-color:seagreen;
+  font-weight: 500;
 }
 
 /* エラー文 */
@@ -75,4 +76,19 @@ div#login{
 
 .not-found{
   text-align: center;
+}
+
+#zipcode{
+  width:100px;
+}
+.input-button-wrapper{
+  display: inline-block;
+}
+.input-button-wrapper input,
+.input-button-wrapper button{
+  display: inline-block;
+}
+
+.input-button-wrapper button{
+  margin-bottom: 3px;
 }

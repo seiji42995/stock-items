@@ -65,7 +65,7 @@ public class ShopRepository {
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("shopName", form.getName()).addValue("shopZipcode", form.getZipcode())
 				.addValue("shopAddress", form.getAddress()).addValue("shopTelephone", form.getTelephone())
-				.addValue("shopOrnerName", form.getOrneaLastName() + " " + form.getOrnerFirstName()).addValue("shopDescription", form.getDescription());
+				.addValue("shopOrnerName", form.getOrnerLastName() + " " + form.getOrnerFirstName()).addValue("shopDescription", form.getDescription());
 		template.update(insertSql.toString(), param);	
 	}
 	
