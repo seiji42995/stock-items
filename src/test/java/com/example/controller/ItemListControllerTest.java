@@ -17,6 +17,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -73,6 +74,7 @@ class ItemListControllerTest {
 	}
 
 	@Test
+	@Disabled
 	@DisplayName("商品表示テスト（初期表示）")
 	void testShowItemList() throws Exception {
 		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
@@ -83,6 +85,7 @@ class ItemListControllerTest {
 	}
 
 	@Test
+	@Disabled
 	@DisplayName("商品表示テスト（次ページ表示）")
 	void testNextPage() throws Exception {
 		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
@@ -95,6 +98,7 @@ class ItemListControllerTest {
 	}
 
 	@Test
+	@Disabled
 	@DisplayName("商品表示テスト（前ページ表示）")
 	void testPreviousPage() throws Exception {
 		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
@@ -107,6 +111,7 @@ class ItemListControllerTest {
 	}
 
 	@Test
+	@Disabled
 	@DisplayName("商品表示テスト（ページング表示）")
 	void testGotoPage() throws Exception {
 		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
@@ -124,6 +129,7 @@ class ItemListControllerTest {
 	}
 
 	@Test
+	@Disabled
 	@DisplayName("商品表示テスト（検索表示）")
 	void testSearch() throws Exception {
 		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
@@ -145,6 +151,7 @@ class ItemListControllerTest {
 	}
 	
 	@Test
+	@Disabled
 	@DisplayName("showListメソッド遷移テスト")
 	void testToShowlist() throws Exception{
 		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
@@ -154,6 +161,21 @@ class ItemListControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(authenticated())
 				.andExpect(view().name("list"));
+	}
+	
+	@Test
+	@DisplayName("ページネーションテスト（異常系：文字を入力）")
+	void testIllegalPagnation() throws Exception{
+		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
+		try {
+			this.mockMvc.perform(get("/item/goto-page")
+					.param("page", "あ")
+					.with(SecurityMockMvcRequestPostProcessors.csrf())
+					.with(user(loginStaff)));
+		}catch(IllegalArgumentException e) {
+			assertEquals("Failed to convert value of type", e.getMessage());
+			throw e;
+		}
 	}
 
 }

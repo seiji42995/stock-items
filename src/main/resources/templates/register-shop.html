@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html   lang="ja"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- css -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" 
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="./mercari.css" th:href="@{/css/mercari.css}"/>
+  <!-- script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <title>Rakus Items</title>
+</head>
+<body>
+  <!-- navbar -->
+  <nav class="navbar navbar-inverse">
+    <a class="navbar-brand" href="./list.html" th:href="@{/login}">Rakus Items</a>
+  </nav>
+
+  <!-- register form -->
+  <div id="login" class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">店舗登録</div>
+      <div class="panel-body">
+        <form action="#" th:action="@{/register/insert-shop-info}" method="POST" th:object="${registerShopForm}">
+          <!-- shop_name -->
+          <div class="form-group">
+            <label for="name">店舗名</label>&nbsp;<span class="error" th:errors="*{name}"></span>
+            <input type="text" class="form-control" id="name" name="name" th:field="*{name}">
+          </div>
+          <!-- zipcode -->
+          <div class="form-group">
+            <label for="zipcode">郵便番号</label>&nbsp;<span class="error" th:errors="*{zipcode}"></span><br>
+            <div class="input-button-wrapper">
+                <input type="text" class="form-control" id="zipcode" name="zipcode" th:field="*{zipcode}">
+                <button class="btn btn-default address-search-btn" type="button"><span>住所検索</span></button>
+            </div>
+          </div>
+          <!-- address -->
+          <div class="form-group">
+            <label for="address">住所</label>&nbsp;<span class="error" th:errors="*{address}"></span>
+            <input type="text" class="form-control" id="address" name="address" th:field="*{address}">
+          </div>
+          <!-- telephone -->
+          <div class="form-group">
+            <label for="telephone">電話番号</label>&nbsp;<span class="error" th:errors="*{telephone}"></span>
+            <input type="text" class="form-control" id="telephone" name="telephone" th:field="*{telephone}">
+          </div>
+          <!-- orner_lastname -->
+          <div class="form-group">
+            <label for="ornerLastName">オーナー性</label>&nbsp;<span class="error" th:errors="*{ornerLastName}"></span>
+            <input type="text" class="form-control" id="ornerLastName" name="ornerLastName" th:field="*{ornerLastName}">
+          </div>
+          <!-- orner_firstname -->
+          <div class="form-group">
+            <label for="ornerFirstName">オーナー名</label>&nbsp;<span class="error" th:errors="*{ornerFirstName}"></span>
+            <input type="text" class="form-control" id="ornerFirstName" name="ornerFirstName" th:field="*{ornerFirstName}">
+          </div>
+          <!-- description -->
+          <div class="form-group">
+            <label for="description">店舗概要</label>&nbsp;<span class="error" th:errors="*{description}"></span>
+            <textarea class="form-control" id="description" name="description" th:field="*{description}" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-default register-btn">店舗登録</button>
+        </form>
+      </div>
+    </div>
+    <div>
+      <a type="button" class="btn btn-default" href="./login.html" th:href="@{/register}"><i class="fa fa-reply"></i>&nbsp;1つ前のページに戻る</a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script th:src="@{/js/address_search.js}"></script>
+</body>
+</html>

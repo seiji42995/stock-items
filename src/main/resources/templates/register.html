@@ -22,7 +22,7 @@
 <body>
   <!-- navbar -->
   <nav class="navbar navbar-inverse">
-    <a class="navbar-brand" href="./list.html">Rakus Items</a>
+    <a class="navbar-brand" href="./list.html" th:href="@{/login}">Rakus Items</a>
   </nav>
 
   <!-- register form -->
@@ -34,6 +34,8 @@
           <div class="form-group">
             <label for="lastName">苗字</label>&nbsp;<span class="error" th:errors="*{lastName}"></span>
             <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}">
+          </div>
+          <div class="form-group">
             <label for="firstName">名前</label>&nbsp;<span class="error" th:errors="*{firstName}"></span>
             <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}">
           </div>
@@ -67,7 +69,7 @@
           </div>
           <div class="reg-shop">
             ※ご自身の所属店舗が見つからない場合は店舗を登録してください &nbsp;
-            <a type="button" class="btn btn-default reg-shop" href="./login.html">店舗登録はこちら</a>
+            <a type="button" class="btn btn-default reg-shop" href="./login.html" th:href="@{/register/shop}">店舗登録はこちら</a>
           </div>
           <br>
           <button type="submit" class="btn btn-default register-btn">アカウント作成</button>

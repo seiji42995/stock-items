@@ -1,5 +1,8 @@
 package com.example.form;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 /**
  * 登録店舗情報を受け取るためのフォームクラス.
  * 
@@ -9,24 +12,33 @@ package com.example.form;
 public class RegisterShopForm {
 
 	/** 店舗名 */
+	@NotBlank(message = "必須入力項目です")
 	private String name;
 	/** 郵便番号 */
+	@NotBlank(message = "必須入力項目です")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はXXX-XXXXの形式で入力してください")
 	private String zipcode;
 	/** 店舗住所 */
+	@NotBlank(message = "必須入力項目です")
 	private String address;
 	/** 店舗電話番号 */
+	@NotBlank(message = "必須入力項目です")
+	@Pattern(regexp = "^(070|080|090)-\\d{4}-\\d{4}$", message = "電話番号はXXX-XXXX-XXXXの形式で入力してください")
 	private String telephone;
 	/** オーナー性 */
-	private String orneaLastName;
+	@NotBlank(message = "必須入力項目です")
+	private String ornerLastName;
 	/** オーナー名 */
+	@NotBlank(message = "必須入力項目です")
 	private String ornerFirstName;
 	/** 店舗概要 */
+	@NotBlank(message = "必須入力項目です")
 	private String description;
 
 	@Override
 	public String toString() {
 		return "RegisterShopForm [name=" + name + ", zipcode=" + zipcode + ", address=" + address + ", telephone="
-				+ telephone + ", orneaLastName=" + orneaLastName + ", ornerFirstName=" + ornerFirstName
+				+ telephone + ", ornerLastName=" + ornerLastName + ", ornerFirstName=" + ornerFirstName
 				+ ", description=" + description + "]";
 	}
 
@@ -62,12 +74,12 @@ public class RegisterShopForm {
 		this.telephone = telephone;
 	}
 
-	public String getOrneaLastName() {
-		return orneaLastName;
+	public String getOrnerLastName() {
+		return ornerLastName;
 	}
 
-	public void setOrneaLastName(String orneaLastName) {
-		this.orneaLastName = orneaLastName;
+	public void setOrnerLastName(String ornerLastName) {
+		this.ornerLastName = ornerLastName;
 	}
 
 	public String getOrnerFirstName() {

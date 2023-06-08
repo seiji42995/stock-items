@@ -28,7 +28,7 @@ public class RegisterStaffInfoForm {
 	@NotNull(message = "権限設定を選択してください")
 	private Integer authority;
 	/** 店舗ID */
-	@NotBlank(message = "店舗を選択してください。")
+	@NotBlank(message = "店舗を選択してください")
 	private String shopName;
 
 	@Override
