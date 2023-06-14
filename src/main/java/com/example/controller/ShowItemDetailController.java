@@ -1,12 +1,14 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Item;
+import com.example.domain.LoginStaff;
 import com.example.service.ItemService;
 
 /**
@@ -18,7 +20,7 @@ import com.example.service.ItemService;
 @Controller
 @RequestMapping("/item")
 public class ShowItemDetailController {
-	
+
 	@Autowired
 	private ItemService itemService;
 
@@ -30,10 +32,12 @@ public class ShowItemDetailController {
 	 * @return 商品詳細画面に遷移
 	 */
 	@GetMapping("/show-detail")
-	public String showDetail(Model model, Integer itemId, Integer page) {
+	public String showDetail(Model model, Integer itemId, Integer page,
+			@AuthenticationPrincipal LoginStaff loginStaff) {
 		Item item = itemService.findByItemId(itemId);
 		model.addAttribute("page", page);
 		model.addAttribute("item", item);
+		model.addAttribute("staffName", loginStaff.getStaff().getStaffName());
 		return "detail";
 	}
 }

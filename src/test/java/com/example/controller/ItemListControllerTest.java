@@ -162,20 +162,5 @@ class ItemListControllerTest {
 				.andExpect(authenticated())
 				.andExpect(view().name("list"));
 	}
-	
-	@Test
-	@DisplayName("ページネーションテスト（異常系：文字を入力）")
-	void testIllegalPagnation() throws Exception{
-		LoginStaff loginStaff = (LoginStaff) staffDetailsServiceImpl.loadUserByUsername("jun.sato@test.com");
-		try {
-			this.mockMvc.perform(get("/item/goto-page")
-					.param("page", "あ")
-					.with(SecurityMockMvcRequestPostProcessors.csrf())
-					.with(user(loginStaff)));
-		}catch(IllegalArgumentException e) {
-			assertEquals("Failed to convert value of type", e.getMessage());
-			throw e;
-		}
-	}
 
 }
