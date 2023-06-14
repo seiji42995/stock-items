@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.Brand;
 import com.example.domain.Category;
 import com.example.domain.Item;
+import com.example.domain.LoginStaff;
 import com.example.form.EditItemForm;
 import com.example.repository.BrandRepository;
 import com.example.service.CategoryService;
@@ -42,7 +44,8 @@ public class EditItemController {
 	private HttpSession httpSession;
 
 	@GetMapping("/edit")
-	public String edit(Integer itemId, Integer page, EditItemForm form, Model model) {
+	public String edit(Integer itemId, Integer page, EditItemForm form, Model model,
+			@AuthenticationPrincipal LoginStaff loginStaff) {
 		Item item = itemService.findByItemId(itemId);
 		model.addAttribute("item", item);
 		System.out.println(page);
@@ -58,13 +61,15 @@ public class EditItemController {
 		model.addAttribute("brandList", brandList);
 		model.addAttribute("page", page);
 		model.addAttribute("itemId", itemId);
+		model.addAttribute("staffName", loginStaff.getStaff().getStaffName());
 		return "edit";
 	}
 
 	@PostMapping("/edit-item")
-	public String editItem(@Validated EditItemForm form, BindingResult result,Integer itemId, Integer page, Model model) {
-		if(result.hasErrors()) {
-			return edit(itemId, page, form, model);
+	public String editItem(@Validated EditItemForm form, BindingResult result, Integer itemId, Integer page,
+			Model model, @AuthenticationPrincipal LoginStaff loginStaff) {
+		if (result.hasErrors()) {
+			return edit(itemId, page, form, model, loginStaff);
 		}
 		itemService.editItem(form, itemId);
 		httpSession.setAttribute("sessionItemId", itemId);
@@ -73,9 +78,9 @@ public class EditItemController {
 	}
 
 	@GetMapping("/to-show_detail")
-	public String toShowDetail(Model model) {
-		Integer itemId = (Integer)httpSession.getAttribute("sessionItemId");
-		Integer page = (Integer)httpSession.getAttribute("sessionPage");
-		return showitemDetailController.showDetail(model, itemId, page);
+	public String toShowDetail(Model model, @AuthenticationPrincipal LoginStaff loginStaff) {
+		Integer itemId = (Integer) httpSession.getAttribute("sessionItemId");
+		Integer page = (Integer) httpSession.getAttribute("sessionPage");
+		return showitemDetailController.showDetail(model, itemId, page, loginStaff);
 	}
 }

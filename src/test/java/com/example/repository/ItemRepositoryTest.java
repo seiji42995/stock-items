@@ -309,4 +309,15 @@ class ItemRepositoryTest {
 		Integer countNum = itemRepository.countItemIdBySearchFormAll(form);
 		assertEquals(16819, countNum, "正常な値が取得できていません");
 	}
+	
+	@Test
+	@DisplayName("Exceptionテスト")
+	void testException() {
+		try {
+			throw new Exception("テストException");
+		}catch(Exception e) {
+			assertEquals("テストException", e.getMessage(), "Exception発生ができていません");
+		}
+	}
+	
 }
